@@ -1,111 +1,96 @@
-from matplotlib import pyplot as plt
+import numpy as np
+from scipy.integrate import odeint
+import matplotlib.pyplot as plt
 
 def main_function():
-    
-    S = 0
-    I = 0
-    Ro = 0
-    R = [0]
-    T = 0
+    N = 0
+    I0 = 0
+    R0 = 0
+    beta = 0
+    gamma = 0
     days = 0
-    
-    while S == 0:
+
+    while N == 0:
         try:
-            S = [int(input('Enter the number of individuals susceptible to the virus '))]
+            N = int(input('Enter the population number '))
         except:
             print('Enter a whole number')
             continue
-   
-    while I == 0:
-       try:
-           I = [int(input('Enter the number of infected individuals at the start '))]
-       except:
-           print('Enter a whole number')
-           continue
 
-    while Ro == 0:
-         try:
-             Ro = float(input('Enter the R value of the virus '))
-         except:
-             print('Enter a number')
-             continue
-    
-    while T == 0:
+    while I0 == 0:
         try:
-            T = float(input('Enter the average recovery time of the virus  '))
+            I0 = int(input('Enter the number of infected individuals at the start '))
+        except:
+            print('Enter a whole number')
+            continue
+
+    while beta == 0:
+        try:
+            beta = float(input('Enter effective contact rate beta (The number of cases caused '
+                               'by one infected individual, effectively, in a unit time) (0.0 - 1.0) '))
         except:
             print('Enter a number')
-            continue 
-        
-    while  days == 0: 
+            continue
+
+    while gamma == 0:
+        try:
+            gamma = float(input('Rate of removal (0.0 - 1.0) '))
+        except:
+            print('Enter a number')
+            continue
+
+    while days == 0:
         try:
             days = float(input('Enter how many days to simulate for '))
         except:
             print('Enter a number')
             continue
-        
-    print(S,I,Ro,R,T,days)
-    
-    ActVac = 0.01
 
-    Simulation_without_vaccine(S, I, R, Ro, T, days)
-    Simulation_with_active_vaccinating(S, I, R, Ro, T, days, ActVac)
-    Restart()    
-    
-def Simulation_without_vaccine(S, I, R, Ro, T, days):
-    for n in range(1, days):
-        if S[n - 1] / I[n - 1] >= 1:
-            S.append(S[n - 1] - Ro * I[n - 1])
-            R.append(R[n - 1] + I[n - 1] / T)
-            I.append(I[n - 1] + Ro * I[n - 1] - I[n - 1] / T)
-        else:
-            S.append(S[n - 1] - Ro * S[n - 1] * S[n - 1] / I[n - 1])
-            R.append(R[n - 1] + I[n - 1] / T)
-            I.append(I[n - 1] + Ro * S[n - 1] * S[n - 1] / I[n - 1] - I[n - 1] / T)
-    print(list(map(round, I)))
+    S0 = N - I0 - R0
 
-    plt.plot(S, label="Susceptible")
-    plt.plot(I, label="Infected")
-    plt.plot(R, label="Recovered")
-    plt.xlabel("Days")
-    plt.ylabel("Number of individuals")
-    plt.title("Virus simulation")
-    plt.legend(loc="best")
+    Virus_simulation(N, S0, I0, R0, beta, gamma, days)
+
+def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
+    # A grid of time points (in days)
+    t = np.linspace(0, days)
+
+    # The SIR model differential equations.
+    def model(y, t, N, beta, gamma):
+        S, I, R = y
+        dSdt = -beta * S * I / N
+        dIdt = beta * S * I / N - gamma * I
+        dRdt = gamma * I
+        return dSdt, dIdt, dRdt
+
+    # Initial conditions vector
+    y0 = S0, I0, R0
+    # Integrate the SIR equations over the time grid, t.
+    ret = odeint(model, y0, t, args=(N, beta, gamma))
+    S, I, R = ret.T
+
+    # Calculate R0 of the virus
+    R_0_virus = beta * 1/gamma
+    print()
+    print("Ro of this virus is " + str(R_0_virus))
+    print("Note that although the curve may not look this big the final ammount of people infected by the virus"
+          "is significant proportion from the population")
+
+    # Plot the data on three separate curves for S(t), I(t) and R(t)
+    fig = plt.figure(facecolor='w')
+    ax = fig.add_subplot(111, facecolor='#dddddd', axisbelow=True)
+    ax.plot(t, S, 'b', label='Susceptible')
+    ax.plot(t, I, 'r', label='Infected')
+    ax.plot(t, R, 'g', label='Recovered with immunity')
+    ax.set_xlabel('Time (days)')
+    ax.set_ylabel('Number')
+    ax.set_ylim(0, N+200)
+    ax.yaxis.set_tick_params(length=0)
+    ax.xaxis.set_tick_params(length=0)
+    ax.grid(b=True, which='major', c='w', lw=2, ls='-')
+    legend = ax.legend()
+    legend.get_frame().set_alpha(0.5)
+    for spine in ('top', 'right', 'bottom', 'left'):
+        ax.spines[spine].set_visible(False)
     plt.show()
-
-
-def Simulation_with_active_vaccinating(S, I, R, Ro, T, days, ActVac):
-    for n in range(1, days):
-        if S[n - 1] / I[n - 1] >= 1:
-            S.append(S[n - 1] - Ro * I[n - 1] - ActVac * S[n - 1])
-            R.append(R[n - 1] + I[n - 1] / T)
-            I.append(I[n - 1] + Ro * I[n - 1] - I[n - 1] / T)
-        else:
-            S.append(S[n - 1] - Ro * S[n - 1] * S[n - 1] / I[n - 1] - ActVac * S[n - 1])
-            R.append(R[n - 1] + I[n - 1] / T)
-            I.append(I[n - 1] + Ro * S[n - 1] * S[n - 1] / I[n - 1] - I[n - 1] / T)
-    print(list(map(round, I)))
-
-    plt.plot(S, label="Susceptible")
-    plt.plot(I, label="Infected")
-    plt.plot(R, label="Recovered")
-    plt.xlabel("Days")
-    plt.ylabel("Number of individuals")
-    plt.title("Virus simulation")
-    plt.legend(loc="best")
-    plt.show()
-
-
-def Restart():
-    again = input("Would you like to make another simulation? ")
-    if again == "yes" or again == "y":
-        print("\n")
-        main_function()
-    elif again == "no" or again == "n":
-        print("\nSee ya!")
-    else:
-        print("Invalid input")
-        Restart()
-
 
 main_function()
