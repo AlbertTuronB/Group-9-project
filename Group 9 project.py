@@ -13,7 +13,7 @@ Ro = 0.5
 T = 12
 days = 365
 
-def Simulation_without_vaccine:
+def Simulation_without_vaccine():
     for n in range(1, days):
         if S[n-1]/I[n-1]>= 1:
             S.append(S[n-1]-Ro*I[n-1])
