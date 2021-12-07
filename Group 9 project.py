@@ -1,20 +1,66 @@
 from matplotlib import pyplot as plt
 
+def maininput():
+    S = 0
+    I = 0
+    Ro = 0
+    R = [0]
+    T = 0
+    days = 0
+    
+    while S == 0:
+        try:
+            S = [int(input('Enter the number of individuals susceptible to the virus '))]
+        except:
+            print('Enter a whole number')
+            continue
+   
+    while I == 0:
+       try:
+           I = [int(input('Enter the number of infected individuals at the start '))]
+       except:
+           print('Enter a whole number')
+           continue
 
-def main_function():
+    while Ro == 0:
+         try:
+             Ro = float(input('Enter the R value of the virus '))
+         except:
+             print('Enter a number')
+             continue
+    
+    while T == 0:
+        try:
+            T = float(input('Enter the average recovery time of the virus  '))
+        except:
+            print('Enter a number')
+            continue 
+        
+    while  days == 0: 
+        try:
+            days = float(input('Enter how many days to simulate for '))
+        except:
+            print('Enter a number')
+            continue
+        
+    print(S,I,Ro,R,T,days)
+
+
+
+#def main_function():
     # number of individuals susceptible to virus
-    S = [999]
+    #S = [999]
     # number of individuals infected to virus
-    I = [1]
+   # I = [1]
     # number of individuals not able to contract virus due to having been infected and developed an immunity or
     # died due to infection
-    R = [0]
+   # R = [0]
     # how many infected on average stem from one infected
-    Ro = 0.5
+   # Ro = 0.5
     # average recovery time
-    T = 12
+   # T = 12
     # period of time over which the simulation is played
-    days = 100
+   # days = 100
     # % of susceptible individuals getting vaccinated every day
     ActVac = 0.01
 
