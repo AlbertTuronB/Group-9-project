@@ -50,9 +50,10 @@ def main_function():
 
     Virus_simulation(N, S0, I0, R0, beta, gamma, days)
 
+
 def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     # A grid of time points (in days)
-    t = np.linspace(0, days)
+    t = np.linspace(0, days, num=int(days))
 
     # The SIR model differential equations.
     def model(y, t, N, beta, gamma):
@@ -65,15 +66,17 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     # Initial conditions vector
     y0 = S0, I0, R0
     # Integrate the SIR equations over the time grid, t.
-    ret = odeint(model, y0, t, args=(N, beta, gamma))
-    S, I, R = ret.T
+    # The array "result" is a two dimensional array of the shape [number of days, 3] where
+    # 3 corresponds to three initialization conditions
+    result = odeint(model, y0, t, args=(N, beta, gamma))
+    S, I, R = result.T
+
 
     # Calculate R0 of the virus
     R_0_virus = beta * 1/gamma
-    print()
-    print("Ro of this virus is " + str(R_0_virus))
-    print("Note that although the curve may not look this big the final ammount of people infected by the virus"
-          "is significant proportion from the population")
+    print(f"Ro of this virus is {str(R_0_virus)}")
+    print("Note that although the curve may not look this big the final amount of people infected by the virus "
+            "is significant proportion from the population")
 
     # Plot the data on three separate curves for S(t), I(t) and R(t)
     fig = plt.figure(facecolor='w')
@@ -92,5 +95,26 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     for spine in ('top', 'right', 'bottom', 'left'):
         ax.spines[spine].set_visible(False)
     plt.show()
+
+    #Asks user if it wants to know a certain value of the variables
+    while True:
+        try:
+            Search = input("Do you want to search for a certain value? (y/n)")
+            if Search == "y":
+                value = input("In which variable are you interested: I (infected), S (susceptible) or R (recovered)? ")
+                day = input("In which day would you like to know the value of the variable? (if 0 is day 1)")
+                if value == "S":
+                    print(result[int(day)][0])
+                elif value == "I":
+                    print(result[int(day)][1])
+                elif value == "R":
+                    print(result[int(day)][2])
+                continue
+            if Search == "n":
+                break
+        except ValueError:
+            print("Invalid")
+            continue
+
 
 main_function()
