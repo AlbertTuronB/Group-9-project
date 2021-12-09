@@ -115,6 +115,18 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
         except ValueError:
             print("Invalid")
             continue
+    
+    Restart()
 
+def Restart():
+    again = input("Would you like to make another simulation? ")
+    if again == "yes" or again == "y":
+        print("\n")
+        main_function()
+    elif again == "no" or again == "n":
+        print("\nSee ya!")
+    else:
+        print("Invalid input")
+        Restart()
 
 main_function()
