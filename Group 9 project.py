@@ -2,6 +2,81 @@ import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
+def DictionaryChoiceFunction():
+
+    RValueDictionary = {
+        'Virus':'R0 value',
+        '1: Measles':15,
+        '2: Chicken Pox':11,
+        '3: Mumps':11,
+        '4: Rubella':6.5,
+        '5: Covid-19 (Delta Variant)':6.5,
+        '6: Polio':6,
+        '7: Smallpox':4.75,
+        '8: COVID-19(Alpha Variant)':4.5,
+        '9: HIV/AIDS':3.5,
+        '10: SARS':3,
+        '11: Common Cold':2.5,
+        '12: Ebola':1.8,
+        '13: Seasonal Influenza':1.3,
+        '14: Andes Hantavirus':1.2,
+        '15: Nipah Virus':0.5,
+        '16: MERS':0.5,
+        }
+
+    DictChoice = ''
+
+    for virus,value in RValueDictionary.items():
+        print(virus,':',value)
+
+    while DictChoice.lower() != 'yes' or DictChoice.lower() != 'no':
+        
+
+        DictChoice = input('Would you like to use one of these R0 values?\nType "yes" if so or "no" to input your own\n')
+            
+        if DictChoice.lower() == 'yes':
+            UsingDict = 1
+            break
+        elif DictChoice.lower() == 'no':
+            UsingDict = 0
+            break
+        else:
+            print('Enter yes or no')
+            continue
+       
+    print(UsingDict)
+
+    if UsingDict == 1:
+        VirusChoice = 0
+        LoopTest = 0
+        RValues = RValueDictionary.values()
+        RValueList = list(RValues)
+        while LoopTest == 0:
+            try:
+                VirusChoice = int(input('Input the number of the virus you want to use '))
+                if VirusChoice <= 0:
+                    print('Enter a number listed')
+                    continue
+                elif VirusChoice >= 17:
+                    print('Enter a number listed')
+                    continue
+                else:
+                    LoopTest = 1
+            except:
+                print('Enter a number listed')
+                continue
+        R0 = RValueList[VirusChoice]    
+        print('Your R0 is',R0)
+    else:
+        R0 = 0
+        while R0 == 0:
+            try:
+                R0 = float(input('Enter the R0 you want to use '))
+            except:
+                print('The R0 must be a number')
+                continue
+        print('Your R0 is',R0)
+
 def main_function():
     N = 0
     I0 = 0
