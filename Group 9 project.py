@@ -3,7 +3,10 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
 def DictionaryChoiceFunction():
-
+    # this function presents the user with a list of viruses and their approximate R0, asks them if they want to use one of those values and if not, lets them
+    # input their own value
+    
+    # This dictionary holds all the preset values for R0 that can be used
     RValueDictionary = {
         'Virus':'R0 value',
         '1: Measles':15,
@@ -26,14 +29,17 @@ def DictionaryChoiceFunction():
 
     DictChoice = ''
 
+    # this loop prints the choices available to the user so they can choose
     for virus,value in RValueDictionary.items():
         print(virus,':',value)
-
+   
+    # this while loop is active until the users input is valid
     while DictChoice.lower() != 'yes' or DictChoice.lower() != 'no':
         
 
         DictChoice = input('Would you like to use one of these R0 values?\nType "yes" if so or "no" to input your own\n')
             
+         # this code stores the user's choice   
         if DictChoice.lower() == 'yes':
             UsingDict = 1
             break
@@ -44,8 +50,8 @@ def DictionaryChoiceFunction():
             print('Enter yes or no')
             continue
        
-    print(UsingDict)
-
+   
+    # if the user wants to use the dictionary then this puts the values into a list so it can be indexed
     if UsingDict == 1:
         VirusChoice = 0
         LoopTest = 0
@@ -58,21 +64,21 @@ def DictionaryChoiceFunction():
                     print('Enter a number listed')
                     continue
                 elif VirusChoice >= 17:
-                    print('Enter a number listed')
+                    print('Enter a number listed') # the if and elif stop the user inputting a value not on in the list
                     continue
                 else:
-                    LoopTest = 1
+                    LoopTest = 1 # this ends the while loop
             except:
                 print('Enter a number listed')
                 continue
-        R0 = RValueList[VirusChoice]    
-        print('Your R0 is',R0)
+        R0 = RValueList[VirusChoice] # the number the user enters is the index of the value in the list   
+        print('Your R0 is',R0) # it doesn't need to be input-1 because the 0 index value is the column header
     else:
         R0 = 0
         while R0 == 0:
-            try:
+            try: 
                 R0 = float(input('Enter the R0 you want to use '))
-            except:
+            except: # this stops the program crashing if the user tries an invalid input
                 print('The R0 must be a number')
                 continue
         print('Your R0 is',R0)
@@ -85,15 +91,16 @@ def main_function():
     gamma = 0
     days = 0
 
+    # this function lets the user input the values they want to use without crashing 
     while N == 0:
-        try:
+        try: 
             N = int(input('Enter the population number '))
         except:
             print('Enter a whole number')
             continue
 
     while I0 == 0:
-        try:
+        try: # 
             I0 = int(input('Enter the number of infected individuals at the start '))
         except:
             print('Enter a whole number')
