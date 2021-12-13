@@ -1,45 +1,124 @@
 import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
+import time
+import sys
+
+def main_function():
+    Inroduction_1()
+    Quiz()
+    Introduction_to_simulation()
+
+    DictionaryChoiceFunction()
+    R_0_virus = DictionaryChoiceFunction()
+
+    User_Data_Gathering(R_0_virus)
+    N, S0, I0, beta, gamma, days = User_Data_Gathering()
+
+    Virus_simulation(N, S0, I0, R0, beta, gamma, days)
+
+# Introduce user to the program and give him/her overview of what the program is about
+def Inroduction_1():
+    print("Hi!")
+    time.sleep(0.5)
+    print("The last years have been defined by the outbreak of the coronavirus.")
+    time.sleep(1)
+    print("But viruses are nothing new, they existed 3.5 billion years before humans evolved on Earth.")
+    time.sleep(1)
+    print("They have played an important role in our evolution as close to 10% of the human genome")
+    print("is their genetic material embedded in our own DNA.")
+    time.sleep(1)
+    print("Thanks to our current technology, we can easily simulate a spread of a virus in homologous environment.")
+    print("")
+    print("Today you'll learn about:")
+    print("1) History and fun facts about different viruses.")
+    print("2) What are the fundamental equations used to predict virus spread in today's world")
+    print("3) What factors play key role in the spread of virus and how the curve can be flattened")
+    time.sleep(3)
+
+    introduction_continue = ""
+    while introduction_continue.lower() != 'yes' or introduction_continue.lower() != 'no':
+        introduction_continue = input("Are you ready to continue into the world of viruses?\nType 'yes' or 'no'\n")
+        if introduction_continue.lower() == 'yes':
+            break
+        elif introduction_continue.lower() == 'no':
+            sys.exit(0)
+        else:
+            print('Enter yes or no')
+            continue
+
+def Quiz():
+    # enter quiz code here
+
+def Introduction_to_simulation():
+    print("Now that you have learned about the colourful facts and history about the viruses,")
+    print("it is time to start simulating\n")
+    print("")
+    time.sleep(1)
+    print("We will be using Kermack-McKendrick SIR model, that was developed in the early twentieth century.")
+    print("The SIR stem from susceptible, infected, removed")
+    print("In our initial simulation the number of susceptible is equal to # of population - # of infected")
+    print("The removed are all the individuals, who cannot be affected due to immunity developed during the infection,")
+    print(", immune due to vaccination, have died due to disease - ")
+    print("all in all they do not play part in the spreading of the virus")
+    print("")
+    time.sleep(3)
+    print("The model explains the rapid rise and fall in the number of infected patients observed in epidemics")
+    print("It assumes that the population size is fixed (i.e., no births or deaths by other causes),")
+    print("and incubation period of the infectious agent is instantaneous,")
+    print("and duration of infectivity is same as length of the disease")
+    print("It also assumes a completely homogeneous population with no age, spatial, or social structure.")
+    time.sleep(5)
+    print("Although SIR model makes some very big assumptions, it still works quite well in virus simulation.")
+    print("Modern models also use the basis of SIR equations with added weigths to count for age and social structure")
+    print("To see the equations we use for this simulation and further resources feel free to visit this website:")
+    print("https://www.maa.org/press/periodicals/loci/joma/the-sir-model-for-spread-of-disease-the-differential-equation-model")
+    time.sleep(3)
+    print("")
+    sim_introduction_continue = ""
+    while sim_introduction_continue.lower() != 'yes' or sim_introduction_continue.lower() != 'no':
+        sim_introduction_continue = input("Are you ready to start simulating now?\nType 'yes' or 'no'\n")
+        if sim_introduction_continue.lower() == 'yes':
+            break
+        elif sim_introduction_continue.lower() == 'no':
+            sys.exit(0)
+        else:
+            print('Enter yes or no')
+            continue
+    print("")
+
 
 def DictionaryChoiceFunction():
-    # this function presents the user with a list of viruses and their approximate R0, asks them if they want to use one of those values and if not, lets them
-    # input their own value
-    
-    # This dictionary holds all the preset values for R0 that can be used
     RValueDictionary = {
-        'Virus':'R0 value',
-        '1: Measles':15,
-        '2: Chicken Pox':11,
-        '3: Mumps':11,
-        '4: Rubella':6.5,
-        '5: Covid-19 (Delta Variant)':6.5,
-        '6: Polio':6,
-        '7: Smallpox':4.75,
-        '8: COVID-19(Alpha Variant)':4.5,
-        '9: HIV/AIDS':3.5,
-        '10: SARS':3,
-        '11: Common Cold':2.5,
-        '12: Ebola':1.8,
-        '13: Seasonal Influenza':1.3,
-        '14: Andes Hantavirus':1.2,
-        '15: Nipah Virus':0.5,
-        '16: MERS':0.5,
-        }
+        'Virus': 'R0 value',
+        '1: Measles': 15,
+        '2: Chicken Pox': 11,
+        '3: Mumps': 11,
+        '4: Rubella': 6.5,
+        '5: Covid-19 (Delta Variant)': 6.5,
+        '6: Polio': 6,
+        '7: Smallpox': 4.75,
+        '8: COVID-19(Alpha Variant)': 4.5,
+        '9: HIV/AIDS': 3.5,
+        '10: SARS': 3,
+        '11: Common Cold': 2.5,
+        '12: Ebola': 1.8,
+        '13: Seasonal Influenza': 1.3,
+        '14: Andes Hantavirus': 1.2,
+        '15: Nipah Virus': 0.5,
+        '16: MERS': 0.5,
+    }
 
     DictChoice = ''
 
-    # this loop prints the choices available to the user so they can choose
-    for virus,value in RValueDictionary.items():
-        print(virus,':',value)
-   
-    # this while loop is active until the users input is valid
-    while DictChoice.lower() != 'yes' or DictChoice.lower() != 'no':
-        
+    for virus, value in RValueDictionary.items():
+        print(virus, ':', value)
 
-        DictChoice = input('Would you like to use one of these R0 values?\nType "yes" if so or "no" to input your own\n')
-            
-         # this code stores the user's choice   
+    while DictChoice.lower() != 'yes' or DictChoice.lower() != 'no':
+
+        DictChoice = input(
+            'Would you like to use one of these R0 values?\nType "yes" if so or "no" to input your own\n')
+
         if DictChoice.lower() == 'yes':
             UsingDict = 1
             break
@@ -49,9 +128,7 @@ def DictionaryChoiceFunction():
         else:
             print('Enter yes or no')
             continue
-       
-   
-    # if the user wants to use the dictionary then this puts the values into a list so it can be indexed
+
     if UsingDict == 1:
         VirusChoice = 0
         LoopTest = 0
@@ -64,59 +141,61 @@ def DictionaryChoiceFunction():
                     print('Enter a number listed')
                     continue
                 elif VirusChoice >= 17:
-                    print('Enter a number listed') # the if and elif stop the user inputting a value not on in the list
+                    print('Enter a number listed')
                     continue
                 else:
-                    LoopTest = 1 # this ends the while loop
+                    LoopTest = 1
             except:
                 print('Enter a number listed')
                 continue
-        R0 = RValueList[VirusChoice] # the number the user enters is the index of the value in the list   
-        print('Your R0 is',R0) # it doesn't need to be input-1 because the 0 index value is the column header
+        R_0_virus = RValueList[VirusChoice]
+        print('Your R0 is', R_0_virus)
+        return R_0_virus
     else:
-        R0 = 0
-        while R0 == 0:
-            try: 
-                R0 = float(input('Enter the R0 you want to use '))
-            except: # this stops the program crashing if the user tries an invalid input
+        R_0_virus = 0
+        while R_0_virus == 0:
+            try:
+                R_0_virus = float(input('Enter the R0 you want to use '))
+            except:
                 print('The R0 must be a number')
                 continue
-        print('Your R0 is',R0)
+        print('Your R0 is', R_0_virus)
+        return R_0_virus
 
-def main_function():
+
+def User_Data_Gathering(R_0_virus):
     N = 0
     I0 = 0
     R0 = 0
-    beta = 0
     gamma = 0
     days = 0
 
-    # this function lets the user input the values they want to use without crashing 
     while N == 0:
-        try: 
+        try:
             N = int(input('Enter the population number '))
         except:
             print('Enter a whole number')
             continue
 
     while I0 == 0:
-        try: # 
+        try:
             I0 = int(input('Enter the number of infected individuals at the start '))
         except:
             print('Enter a whole number')
             continue
 
-    while beta == 0:
+    while R0 == 0:
         try:
-            beta = float(input('Enter effective contact rate beta (The number of cases caused '
-                               'by one infected individual, effectively, in a unit time) (0.0 - 1.0) '))
+            R0 = int(input('Enter the number of individuals who are not susceptible to the virus at the start '))
         except:
-            print('Enter a number')
+            print('Enter a whole number')
             continue
 
     while gamma == 0:
         try:
-            gamma = float(input('Rate of removal (0.0 - 1.0) '))
+            gamma_user = float(input('Period of days it takes an individual to recover from the virus '
+                                '(e.g for covid the nr is 14 days)'))
+            gamma = 1/gamma_user
         except:
             print('Enter a number')
             continue
@@ -128,10 +207,10 @@ def main_function():
             print('Enter a number')
             continue
 
+    beta = R_0_virus * gamma
     S0 = N - I0 - R0
 
-    Virus_simulation(N, S0, I0, R0, beta, gamma, days)
-
+    return N, S0, I0, R0, beta, gamma, days
 
 def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     # A grid of time points (in days)
@@ -154,11 +233,8 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     S, I, R = result.T
 
 
-    # Calculate R0 of the virus
-    R_0_virus = beta * 1/gamma
-    print(f"Ro of this virus is {str(R_0_virus)}")
     print("Note that although the curve may not look this big the final amount of people infected by the virus "
-            "is significant proportion from the population")
+          "is significant proportion from the population")
 
     # Plot the data on three separate curves for S(t), I(t) and R(t)
     fig = plt.figure(facecolor='w')
@@ -168,7 +244,7 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     ax.plot(t, R, 'g', label='Recovered with immunity')
     ax.set_xlabel('Time (days)')
     ax.set_ylabel('Number')
-    ax.set_ylim(0, N+200)
+    ax.set_ylim(0, N + 200)
     ax.yaxis.set_tick_params(length=0)
     ax.xaxis.set_tick_params(length=0)
     ax.grid(b=True, which='major', c='w', lw=2, ls='-')
@@ -178,7 +254,7 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
         ax.spines[spine].set_visible(False)
     plt.show()
 
-    #Asks user if it wants to know a certain value of the variables
+    # Asks user if it wants to know a certain value of the variables
     while True:
         try:
             Search = input("Do you want to search for a certain value? (y/n)")
@@ -197,18 +273,24 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
         except ValueError:
             print("Invalid")
             continue
-    
+
     Restart()
+
 
 def Restart():
     again = input("Would you like to make another simulation? ")
     if again == "yes" or again == "y":
         print("\n")
-        main_function()
+        User_Data_Gathering()
+        N, S0, I0, R0, beta, gamma, days = User_Data_Gathering()
+
+        Virus_simulation(N, S0, I0, R0, beta, gamma, days)
+        Restart()
     elif again == "no" or again == "n":
         print("\nSee ya!")
     else:
         print("Invalid input")
         Restart()
+
 
 main_function()
