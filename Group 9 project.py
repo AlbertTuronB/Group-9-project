@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import time
 import sys
 
-
 def main_function():
     # introduces the user to viruses and to the idea/goal of the program
     Inroduction_1()
@@ -25,14 +24,14 @@ def main_function():
 
     # introduces the user to SIR model and talks about its strengths and weaknesses
     Introduction_to_simulation()
-    
-    # After the simulation we can call the simulation func that includes the virus R0 dictionary, all the necessary data 
+
+    # After the simulation we can call the simulation func that includes the virus R0 dictionary, all the necessary data
     # gathering from the user, and the actual solving of the SIR equations with scipy, resuting with a fabulous plot by matplot
     Restart_simulation()
 
     # the user can now either quit the program or do another simulation
     Restart()
-    
+
 # After all that we allow the user to either quit or do another simulation
 def Restart():
     again = input("Would you like to make another simulation? ")
@@ -177,11 +176,9 @@ def Restart_simulation():
 
     DictChoice = ''
 
-    # Show the user our dictionary
     for virus, value in RValueDictionary.items():
         print(virus, ':', value)
 
-    # Asking the user whether he/she wants to use any of the R0 values from out table or make up one of his own
     while DictChoice.lower() != 'yes' or DictChoice.lower() != 'no':
 
         DictChoice = input(
@@ -197,8 +194,6 @@ def Restart_simulation():
             print('Enter yes or no')
             continue
 
-    # If the user wants to use a value from the dictionary we receive the value from the dictionary and assign it to
-    # R_0_virus variable. If not, the user can input its own value.
     if UsingDict == 1:
         VirusChoice = 0
         LoopTest = 0
@@ -230,7 +225,6 @@ def Restart_simulation():
                 continue
         print('Your R0 is', R_0_virus)
 
-    # From here on we gather data about the other variables that are necessary to initiate the simulation
     N = 0
     I0 = 0
     R0 = -1
@@ -253,8 +247,7 @@ def Restart_simulation():
 
     while R0 < 0:
         try:
-            R0 = int(input('Enter the number of individuals who are not susceptible to the virus at the start '
-                           '(e.g nr of people vaccinated)'))
+            R0 = int(input('Enter the number of individuals who are not susceptible to the virus at the start '))
         except:
             print('Enter a whole number')
             continue
@@ -278,6 +271,15 @@ def Restart_simulation():
     beta = R_0_virus * gamma
     S0 = N - I0 - R0
 
+    Virus_simulation(N, S0, I0, R0, beta, gamma, days)
+    Results = Virus_simulation(N, S0, I0, R0, beta, gamma, days)
+    R = Results[0]
+    maxI = Results[1]
+    I = Results[2]
+    Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I)
+    Restart()
+
+def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     # A grid of time points (in days)
     t = np.linspace(0, days, num=int(days))
 
@@ -296,6 +298,7 @@ def Restart_simulation():
     # 3 corresponds to three initialization conditions
     result = odeint(model, y0, t, args=(N, beta, gamma))
     S, I, R = result.T
+
 
     print("Note that although the curve may not look this big the final amount of people infected by the virus "
           "is significant proportion from the population")
@@ -321,10 +324,10 @@ def Restart_simulation():
     # Asks user if it wants to know a certain value of the variables
     while True:
         try:
-            Search = input("Do you want to search for a certain value? (y/n)")
+            Search = input("Do you want to search for a certain value? (y/n) ")
             if Search == "y":
                 value = input("In which variable are you interested: I (infected), S (susceptible) or R (recovered)? ")
-                day = input("In which day would you like to know the value of the variable? (if 0 is day 1)")
+                day = input("In which day would you like to know the value of the variable? (if 0 is day 1) ")
                 if value == "S":
                     print(result[int(day)][0])
                 elif value == "I":
@@ -333,10 +336,24 @@ def Restart_simulation():
                     print(result[int(day)][2])
                 continue
             if Search == "n":
-                break
+                maxI = 0
+                for i in range(int(days)):
+                    if result[i][1] > maxI:
+                        maxI = int(result[i][1])
+                return (int(result[int(days) - 1][2]), maxI, int(result[int(days) - 1][1]))
         except ValueError:
             print("Invalid")
             continue
 
-
+def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
+    print("Simulation report:")
+    print(f"Population number: {N}")
+    print(f"Number of infected people at the beginning: {I0}")
+    print(f"Number of susceptible people at the beginning: {S0}")
+    print(f"Number of immune/not susceptible people at the beginning: {R0}")
+    print(f"R0 of virus: {R_0_virus}")
+    print(f"Length of simulation (in days): {days}")
+    print(f"Total infected in the end: {R}")
+    print(f"Maximum number of infected people at the same time: {maxI}")
+    print(f"Percentage of population that has been infected in total: {((int(R)+int(I))/int(S0)) * 100}%")
 main_function()
