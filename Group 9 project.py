@@ -201,6 +201,40 @@ def Restart():
         print("Invalid input")
         Restart()
 
+#creates a class
+class Question: 
+    def __init__(self, prompt, answer):
+        self.prompt = prompt
+        self.answer = answer
+
+#creates a list of questions         
+question_prompts = [ 
+        'what is the range of diameters of vriuses?\n(a) 20-300nm\n(b) 200-3000nm\n(c) 20-300μm\n',
+        'who discovered the virus?\n(a) Louis Pasteur\n(b)  Martinus Beijerinck \n(c) Charles Chamberland\n',
+        'are viruses living?\n(a) yes\n(b) no\n',
+        'some viruses can infect bacteria.\n(a) true\n(b) false\n',
+        'how many virus particles are there in a millileter of water?\n(a) 100\n(b) 100,000\n(c) 1,000,000\n'
+]        
+
+#creates a list of the questions and answer tuples        
+questions = [
+    Question(question_prompts[0], 'a'),
+    Question(question_prompts[1], 'b'), 
+    Question(question_prompts[2], 'b'),
+    Question(question_prompts[3], 'a'),
+    Question(question_prompts[4], 'c')
+]
+
+#sets up the quiz function
+def run_quiz(questions) : 
+    mark = 0 #allows the user's mark to be tracked 
+    for question in questions:
+        answer = input(question.prompt)
+        if answer == question.answer: 
+            mark += 1
+    print('Your mark on the quiz is ', str(mark), '/', str(len(questions))) #prints the user's mark       
+        
+
 def Introduction_to_simulation():
     print("Now that you have learned about the colourful facts and history about the viruses,")
     print("it is time to start simulating")
