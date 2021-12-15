@@ -29,9 +29,6 @@ def main_function():
     # gathering from the user, and the actual solving of the SIR equations with scipy, resuting with a fabulous plot by matplot
     Restart_simulation()
 
-    # the user can now either quit the program or do another simulation
-    Restart()
-
 # After all that we allow the user to either quit or do another simulation
 def Restart():
     again = input("Would you like to make another simulation? ")
