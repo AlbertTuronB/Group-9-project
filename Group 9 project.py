@@ -78,7 +78,7 @@ def run_quiz(questions):
             mark += 1
             print("Correct answer!")
         else:
-            print("Not correct this time :/ ")
+            print("Not correct, the correct answer is " + str(question.answer))
     print('Your mark on the quiz is ', str(mark), '/', str(len(questions)))  # prints the user's mark
 
 
