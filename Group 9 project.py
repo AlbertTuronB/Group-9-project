@@ -6,6 +6,8 @@ import sys
 
 
 def main_function():
+    '''Main function of the program. Includes calling the Introduction_1 function, the run_quiz function,
+    the Introduction_to_simulation function and the Restart_simulation function'''
     # introduces the user to viruses and to the idea/goal of the program
     Inroduction_1()
 
@@ -31,18 +33,35 @@ def main_function():
     Restart_simulation()
 
 
-# After all that we allow the user to either quit or do another simulation
-def Restart():
-    again = input("Would you like to make another simulation? ")
-    if again == "yes" or again == "y":
-        print("\n")
-        Restart_simulation()
-        Restart()
-    elif again == "no" or again == "n":
-        print("\nSee ya!")
-    else:
-        print("Invalid input")
-        Restart()
+def Inroduction_1():
+    '''Gives some facts and historical data about viruses. Also asks user if it wants to continue with the program'''
+    print("Hi!")
+    time.sleep(0.5)
+    print("The last years have been defined by the outbreak of the coronavirus.")
+    time.sleep(1)
+    print("But viruses are nothing new, they existed 3.5 billion years before humans evolved on Earth.")
+    time.sleep(1)
+    print("They have played an important role in our evolution as close to 10% of the human genome")
+    print("is their genetic material embedded in our own DNA.")
+    time.sleep(1)
+    print("Thanks to our current technology, we can easily simulate a spread of a virus in homologous environment.")
+    print("")
+    print("Today you'll learn about:")
+    print("1) History and fun facts about different viruses.")
+    print("2) What are the fundamental equations used to predict virus spread in today's world")
+    print("3) What factors play key role in the spread of virus and how the curve can be flattened")
+    time.sleep(3)
+
+    introduction_continue = ""
+    while introduction_continue.lower() != 'yes' or introduction_continue.lower() != 'no':
+        introduction_continue = input("Are you ready to continue into the world of viruses?\nType 'yes' or 'no'\n")
+        if introduction_continue.lower() == 'yes':
+            break
+        elif introduction_continue.lower() == 'no':
+            sys.exit(0)
+        else:
+            print('Enter yes or no')
+            continue
 
 
 # creates a class
@@ -66,6 +85,7 @@ question_prompts = [
     '10) viruses evolve at a rate of ___.\n(a) days\n(b) years\n(c) millennia\n'
 ]
 
+
 # creates a list of the questions and answer tuples
 questions = [
     Question(question_prompts[0], 'a'),
@@ -83,6 +103,7 @@ questions = [
 
 # sets up the quiz function
 def run_quiz(questions):
+    '''Runs a short quiz to test the user's knowledge of viruses'''
     mark = 0  # allows the user's mark to be tracked
     for question in questions:
         answer = input(question.prompt)
@@ -95,6 +116,7 @@ def run_quiz(questions):
 
 
 def Introduction_to_simulation():
+    '''Gives information about the simulation modelling and asks the user if it wants to continue'''
     print("Now that you have learned about the colourful facts and history about the viruses,")
     print("it is time to start simulating")
     print("\n")
@@ -133,37 +155,13 @@ def Introduction_to_simulation():
     print("")
 
 
-def Inroduction_1():
-    print("Hi!")
-    time.sleep(0.5)
-    print("The last years have been defined by the outbreak of the coronavirus.")
-    time.sleep(1)
-    print("But viruses are nothing new, they existed 3.5 billion years before humans evolved on Earth.")
-    time.sleep(1)
-    print("They have played an important role in our evolution as close to 10% of the human genome")
-    print("is their genetic material embedded in our own DNA.")
-    time.sleep(1)
-    print("Thanks to our current technology, we can easily simulate a spread of a virus in homologous environment.")
-    print("")
-    print("Today you'll learn about:")
-    print("1) History and fun facts about different viruses.")
-    print("2) What are the fundamental equations used to predict virus spread in today's world")
-    print("3) What factors play key role in the spread of virus and how the curve can be flattened")
-    time.sleep(3)
-
-    introduction_continue = ""
-    while introduction_continue.lower() != 'yes' or introduction_continue.lower() != 'no':
-        introduction_continue = input("Are you ready to continue into the world of viruses?\nType 'yes' or 'no'\n")
-        if introduction_continue.lower() == 'yes':
-            break
-        elif introduction_continue.lower() == 'no':
-            sys.exit(0)
-        else:
-            print('Enter yes or no')
-            continue
-
-
 def Restart_simulation():
+    '''Prints a dictionary with different R0 values for different viruses. Asks user if it wants to use the dictionary.
+    Then asks for the initialization parameters and some other parameters needed for the simulation to run.
+    Finally it calls the Virus_simulation function which runs the simulation and stores the results
+    (an array containing the number of recovered people, the maximum number of infected people at the same time and the
+     number of infected people on the last day of the simulation)
+    it also calls the Simulation_report function'''
     RValueDictionary = {
         'Virus': 'R0 value',
         '1: Measles': 15,
@@ -291,6 +289,12 @@ def Restart_simulation():
 
 
 def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
+    '''Runs the simulation with the given parameters using the odeint function from the scipy library.
+    Saves the results the array "result" is a two dimensional array of the shape [number of days, 3] where
+    3 corresponds to the three initialization conditions.
+    Also asks user if it wants to search for a specific value and prints it.
+    Returns the number of recovered people, the maximum number of infected people at the same time and the number of
+    infected poeple on the last day of the simulation'''
     # A grid of time points (in days)
     t = np.linspace(0, days, num=int(days))
 
@@ -357,6 +361,8 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
 
 
 def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
+    '''Prints a report using the initialization parameters and the results returned from the Virus_simulation function
+     Also asks user if it wants to save the report in a file'''
     print("Simulation report:")
     print(f"Population number: {N}")
     print(f"Number of infected people at the beginning: {I0}")
@@ -390,7 +396,7 @@ def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
                 f.write(str({R}))
                 f.write('\nMaximum number of infected people at the same time: ')
                 f.write(str({maxI}))
-                f.write('\nPercentage of popilation that has been infected in total: ')
+                f.write('\nPercentage of population that has been infected in total: ')
                 f.write(str(((int(R) + int(I)) / int(N)) * 100))
                 break
             elif save_report.lower() == 'no':
@@ -398,6 +404,22 @@ def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
         except:
             print('invalid input')
             continue
+
+
+# After all that we allow the user to either quit or do another simulation
+def Restart():
+    '''Asks user if it wants to do another simulation and restarts the program if affirmative'''
+    again = input("Would you like to make another simulation? ")
+    if again == "yes" or again == "y":
+        print("\n")
+        Restart_simulation()
+        Restart()
+    elif again == "no" or again == "n":
+        print("\nSee ya!")
+    else:
+        print("Invalid input")
+        Restart()
+
 
 
 main_function()
