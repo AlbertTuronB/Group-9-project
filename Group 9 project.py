@@ -363,4 +363,36 @@ def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
     print(f"Total infected in the end: {R}")
     print(f"Maximum number of infected people at the same time: {maxI}")
     print(f"Percentage of population that has been infected in total: {((int(R)+int(I))/int(S0)) * 100}%")
+    
+  while True:
+        try:
+            save_report = input('Would you like to save this report as a file? (yes or no) ')
+            if save_report.lower() == 'yes':
+                f = open(str(input("Please type a name for the file without a file extension "))+".txt", "w")
+                f.write('Simulation report:\n')
+                f.write('Population number: ')
+                f.write(str({N}))
+                f.write('\nNumber of infected people at the beginning: ')
+                f.write(str({I0}))
+                f.write('\nNumber of susceptible people at the beginning: ')
+                f.write(str({S0}))
+                f.write('\nNumber of immune/not susceptible people at the beginning: ')
+                f.write(str({R0}))
+                f.write('\nR0 of virus: ')
+                f.write(str({R_0_virus}))
+                f.write('\nLength of simulation in days: ')
+                f.write(str({days}))
+                f.write('\nTotal infected in the end: ')
+                f.write(str({R}))
+                f.write('\nMaximum number of infected people at the same time: ')
+                f.write(str({maxI}))
+                f.write('\nPercentage of popilation that has been infected in total: ')
+                f.write(str(((int(R)+int(I))/int(S0)) * 100))
+                break
+            elif save_report.lower() == 'no':
+                break
+        except:
+            print('invalid input')
+            continue
+            
 main_function()
