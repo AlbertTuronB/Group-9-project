@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import time
 import sys
 
+
 def main_function():
     # introduces the user to viruses and to the idea/goal of the program
     Inroduction_1()
@@ -28,6 +29,7 @@ def main_function():
     # After the simulation we can call the simulation func that includes the virus R0 dictionary, all the necessary data
     # gathering from the user, and the actual solving of the SIR equations with scipy, resuting with a fabulous plot by matplot
     Restart_simulation()
+
 
 # After all that we allow the user to either quit or do another simulation
 def Restart():
@@ -55,8 +57,8 @@ question_prompts = [
     '1) what is the range of diameters of vriuses?\n(a) 20-300nm\n(b) 200-3000nm\n(c) 20-300μm\n',
     '2) who discovered the virus?\n(a) Louis Pasteur\n(b)  Martinus Beijerinck \n(c) Charles Chamberland\n',
     '3) are viruses living?\n(a) yes\n(b) no\n',
-    '4) some viruses can infect bacteria.\n(a) true\n(b) false\n'
-    '5) how many virus particles are there in a millileter of water?\n(a) 100\n(b) 100,000\n(c) 1,000,000\n', 
+    '4) some viruses can infect bacteria.\n(a) true\n(b) false\n',
+    '5) how many virus particles are there in a millileter of water?\n(a) 100\n(b) 100,000\n(c) 1,000,000\n',
     '6) what is the meaning of the latin word which virus comes from\n(a) weapon\n(b) germ\n(c) poison\n',
     '7) the HTLV virus, which has coevolved with human, is being used to ___________.\n(a) fight bacteria\n(b) study prehistoric migration patterns\n(c) study the evoltion of humans\n',
     '8) the genetic information of viruses is carried in ___.\n(a) DNA\n(b) RNA\n(c) both DNA and RNA\n',
@@ -75,7 +77,7 @@ questions = [
     Question(question_prompts[6], 'b'),
     Question(question_prompts[7], 'c'),
     Question(question_prompts[8], 'a'),
-    Question(question_prompts[9], 'a')   
+    Question(question_prompts[9], 'a')
 ]
 
 
@@ -159,6 +161,7 @@ def Inroduction_1():
         else:
             print('Enter yes or no')
             continue
+
 
 def Restart_simulation():
     RValueDictionary = {
@@ -286,6 +289,7 @@ def Restart_simulation():
     Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I)
     Restart()
 
+
 def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     # A grid of time points (in days)
     t = np.linspace(0, days, num=int(days))
@@ -305,7 +309,6 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     # 3 corresponds to three initialization conditions
     result = odeint(model, y0, t, args=(N, beta, gamma))
     S, I, R = result.T
-
 
     print("Note that although the curve may not look this big the final amount of people infected by the virus "
           "is significant proportion from the population")
@@ -352,6 +355,7 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
             print("Invalid")
             continue
 
+
 def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
     print("Simulation report:")
     print(f"Population number: {N}")
@@ -362,13 +366,13 @@ def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
     print(f"Length of simulation (in days): {days}")
     print(f"Total infected in the end: {R}")
     print(f"Maximum number of infected people at the same time: {maxI}")
-    print(f"Percentage of population that has been infected in total: {((int(R)+int(I))/int(S0)) * 100}%")
-    
+    print(f"Percentage of population that has been infected in total: {((int(R) + int(I)) / int(S0)) * 100}%")
+
     while True:
         try:
             save_report = input('Would you like to save this report as a file? (yes or no) ')
             if save_report.lower() == 'yes':
-                f = open(str(input("Please type a name for the file without a file extension "))+".txt", "w")
+                f = open(str(input("Please type a name for the file without a file extension ")) + ".txt", "w")
                 f.write('Simulation report:\n')
                 f.write('Population number: ')
                 f.write(str({N}))
@@ -387,12 +391,13 @@ def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
                 f.write('\nMaximum number of infected people at the same time: ')
                 f.write(str({maxI}))
                 f.write('\nPercentage of popilation that has been infected in total: ')
-                f.write(str(((int(R)+int(I))/int(S0)) * 100))
+                f.write(str(((int(R) + int(I)) / int(S0)) * 100))
                 break
             elif save_report.lower() == 'no':
                 break
         except:
             print('invalid input')
             continue
-            
+
+
 main_function()
