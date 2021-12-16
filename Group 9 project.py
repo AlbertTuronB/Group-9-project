@@ -73,11 +73,11 @@ class Question:
 
 # creates a list of questions
 question_prompts = [
-    '1) what is the range of diameters of vriuses?\n(a) 20-300nm\n(b) 200-3000nm\n(c) 20-300μm\n',
+    '1) what is the range of diameters of viruses?\n(a) 20-300nm\n(b) 200-3000nm\n(c) 20-300μm\n',
     '2) who discovered the virus?\n(a) Louis Pasteur\n(b)  Martinus Beijerinck \n(c) Charles Chamberland\n',
-    '3) are viruses living?\n(a) yes\n(b) no\n',
+    '3) are viruses considered alive?\n(a) yes\n(b) no\n',
     '4) some viruses can infect bacteria.\n(a) true\n(b) false\n',
-    '5) how many virus particles are there in a millileter of water?\n(a) 100\n(b) 100,000\n(c) 1,000,000\n',
+    '5) how many virus particles are there in a milliliter of water?\n(a) 100\n(b) 100,000\n(c) 1,000,000\n',
     '6) what is the meaning of the latin word which virus comes from\n(a) weapon\n(b) germ\n(c) poison\n',
     '7) the HTLV virus, which has coevolved with human, is being used to ___________.\n(a) fight bacteria\n(b) study prehistoric migration patterns\n(c) study the evoltion of humans\n',
     '8) the genetic information of viruses is carried in ___.\n(a) DNA\n(b) RNA\n(c) both DNA and RNA\n',
