@@ -273,9 +273,9 @@ def Restart_simulation():
 
     while days == 0:
         try:
-            days = float(input('Enter how many days to simulate for '))
+            days = int(input('Enter how many days to simulate for '))
         except:
-            print('Enter a number')
+            print('Enter a whole number')
             continue
 
     beta = R_0_virus * gamma
