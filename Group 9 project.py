@@ -52,11 +52,16 @@ class Question:
 
 # creates a list of questions
 question_prompts = [
-    'What is the range of diameters of viruses?\n(a) 20-300nm\n(b) 200-3000nm\n(c) 20-300μm\n',
-    'Who discovered the virus?\n(a) Louis Pasteur\n(b) Martinus Beijerinck \n(c) Charles Chamberland\n',
-    'Are viruses living?\n(a) yes\n(b) no\n',
-    'Some viruses can infect bacteria.\n(a) true\n(b) false\n',
-    'How many virus particles are there in a millileter of water?\n(a) 100\n(b) 100,000\n(c) 1,000,000\n'
+    '1) what is the range of diameters of vriuses?\n(a) 20-300nm\n(b) 200-3000nm\n(c) 20-300μm\n',
+    '2) who discovered the virus?\n(a) Louis Pasteur\n(b)  Martinus Beijerinck \n(c) Charles Chamberland\n',
+    '3) are viruses living?\n(a) yes\n(b) no\n',
+    '4) some viruses can infect bacteria.\n(a) true\n(b) false\n'
+    '5) how many virus particles are there in a millileter of water?\n(a) 100\n(b) 100,000\n(c) 1,000,000\n', 
+    '6) what is the meaning of the latin word which virus comes from\n(a) weapon\n(b) germ\n(c) poison\n',
+    '7) the HTLV virus, which has coevolved with human, is being used to ___________.\n(a) fight bacteria\n(b) study prehistoric migration patterns\n(c) study the evoltion of humans\n',
+    '8) the genetic information of viruses is carried in ___.\n(a) DNA\n(b) RNA\n(c) both DNA and RNA\n',
+    '9) when was the first human virus discovered?\n(a) 1901\n(b) 1926\n(c) 1955\n',
+    '10) viruses evolve at a rate of ___.\n(a) days\n(b) years\n(c) millennia\n'
 ]
 
 # creates a list of the questions and answer tuples
@@ -65,7 +70,12 @@ questions = [
     Question(question_prompts[1], 'b'),
     Question(question_prompts[2], 'b'),
     Question(question_prompts[3], 'a'),
-    Question(question_prompts[4], 'c')
+    Question(question_prompts[4], 'c'),
+    Question(question_prompts[5], 'c'),
+    Question(question_prompts[6], 'b'),
+    Question(question_prompts[7], 'c'),
+    Question(question_prompts[8], 'a'),
+    Question(question_prompts[9], 'a')   
 ]
 
 
