@@ -366,7 +366,7 @@ def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
     print(f"Length of simulation (in days): {days}")
     print(f"Total infected in the end: {R}")
     print(f"Maximum number of infected people at the same time: {maxI}")
-    print(f"Percentage of population that has been infected in total: {((int(R) + int(I)) / int(S0)) * 100}%")
+    print(f"Percentage of population that has been infected in total: {((int(R) + int(I)) / int(N)) * 100}%")
 
     while True:
         try:
@@ -391,7 +391,7 @@ def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
                 f.write('\nMaximum number of infected people at the same time: ')
                 f.write(str({maxI}))
                 f.write('\nPercentage of popilation that has been infected in total: ')
-                f.write(str(((int(R) + int(I)) / int(S0)) * 100))
+                f.write(str(((int(R) + int(I)) / int(N)) * 100))
                 break
             elif save_report.lower() == 'no':
                 break
