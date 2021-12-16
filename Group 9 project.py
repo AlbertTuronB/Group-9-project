@@ -364,7 +364,7 @@ def Simulation_report(N, I0, S0, R0, R_0_virus, days, R, maxI, I):
     print(f"Maximum number of infected people at the same time: {maxI}")
     print(f"Percentage of population that has been infected in total: {((int(R)+int(I))/int(S0)) * 100}%")
     
-  while True:
+    while True:
         try:
             save_report = input('Would you like to save this report as a file? (yes or no) ')
             if save_report.lower() == 'yes':
