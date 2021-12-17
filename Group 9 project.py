@@ -294,7 +294,7 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
     3 corresponds to the three initialization conditions.
     Also asks user if it wants to search for a specific value and prints it.
     Returns the number of recovered people, the maximum number of infected people at the same time and the number of
-    infected poeple on the last day of the simulation'''
+    infected people on the last day of the simulation'''
     # A grid of time points (in days)
     t = np.linspace(0, days, num=int(days))
 
