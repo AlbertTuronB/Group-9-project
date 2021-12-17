@@ -413,7 +413,6 @@ def Restart():
     if again == "yes" or again == "y":
         print("\n")
         Restart_simulation()
-        Restart()
     elif again == "no" or again == "n":
         print("\nSee ya!")
     else:
