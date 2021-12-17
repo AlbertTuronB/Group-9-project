@@ -341,7 +341,7 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
             Search = input("Do you want to search for a certain value? (y/n) ")
             if Search == "y":
                 value = input("In which variable are you interested: I (infected), S (susceptible) or R (recovered)? ")
-                day = input("In which day would you like to know the value of the variable? (if 0 is day 1) ")
+                day = input("In which day would you like to know the value of the variable? (if 0 is day 1, 1 is day 2...) ")
                 if value == "S":
                     print(result[int(day)][0])
                 elif value == "I":
@@ -355,8 +355,8 @@ def Virus_simulation(N, S0, I0, R0, beta, gamma, days):
                     if result[i][1] > maxI:
                         maxI = int(result[i][1])
                 return (int(result[int(days) - 1][2]), maxI, int(result[int(days) - 1][1]))
-        except ValueError:
-            print("Invalid")
+        except:
+            print("Invalid, remember that you have to input the day you want + 1")
             continue
 
 
